@@ -74,6 +74,8 @@ Source_Port:              45646
 
 `Source_Network_Address: 192.168.56.103` directly ties this successful authentication to the Kali attacker machine, and `Logon_Type: 3` confirms it came in over the network — not from someone physically at the keyboard. Combined with four rapid-fire failures immediately before it from the same source and account, this is a textbook password spray signature.
 
+![Successful logon event in Splunk showing Source_Network_Address, Account_Name, and Logon_Type](screenshots/event-4624-success.png)
+
 ## Detection: Splunk Search
 
 The following SPL query identifies the password-spray pattern — 3 or more failed logons from the same source IP, against the same account, within a 5-minute window:
@@ -104,9 +106,12 @@ The attack was re-run after the alert was deployed to confirm it fires correctly
 ```
 Trigger History:
 2026-11-01 13:05:46 Central Standard Time — Alert fired successfully
+2026-11-02 14:44:21 Central Standard Time — Alert fired successfully (re-validated)
 ```
 
-This confirms the full detection pipeline works end-to-end: **attack → log generation → forwarding → SIEM ingestion → correlation search → real-time alert.**
+![Splunk alert page showing configuration and Trigger History with a fired event](screenshots/alert-trigger-history.png)
+
+This confirms the full detection pipeline works end-to-end, reliably and repeatably: **attack → log generation → forwarding → SIEM ingestion → correlation search → real-time alert.**
 
 ## Skills Demonstrated
 
